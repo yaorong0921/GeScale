@@ -19,7 +19,6 @@
 */
 '''
 
-
 import torch
 import time
 import math
@@ -46,8 +45,13 @@ class AverageMeter(object):
          self.avg = self.sum / self.count
 
 def viterbi_search(inputs,seq):
-    ## inputs: list of the probs of every t
-    ## seq: the number of label changing in one sequence
+    """
+    Args:
+        inputs: list of the probs of every t.
+        seq: the number of label changing in one sequence.
+    Attributes:
+        The most possible path
+    """
     L = len(inputs)   ## the number of t
     N = len(inputs[0]) ## the number of classes
     # initialize with the first t
@@ -117,14 +121,20 @@ def test(epoch, data_loader, model, arg):
     data_time = AverageMeter()
 
     end_time = time.time()
-    window_len = 5
 
+##### some config that can be changed
+    window_len = 5
+    window_stride = 5
+    detector_len = 8
+    sog_th = 5
+    eog_th = 5
+
+##### initial all the errors
+    SoG_error = 0
     EoG_error = 0
     detector_error = 0
     order_error = 0
     classifier_error = 0
-    window_stride = 5
-
 
     for i, (inputs, targets, input_length) in enumerate(data_loader):
         target = list()
@@ -132,17 +142,18 @@ def test(epoch, data_loader, model, arg):
         target.append(int(targets[1][0]))
         target.append(int(targets[2][0]))
         
-        # to modify the input length because of the data modality
+        ## to modify the input length because of the data modality
         if arg.modality == 'IR' or arg.modality == 'D':
             par = 1
         else:
             par = 2
         step = math.ceil((input_length*par - arg.num_segments*par) / par)
+
         ## put every sample_duration frames into model and get a output
         logits = deque(maxlen=window_len)
         SoG = False
         EoG = False
-        detector = deque(maxlen=8)
+        detector = deque(maxlen=detector_len)
         input_viterbi = []
         counter = 0
 
@@ -155,19 +166,19 @@ def test(epoch, data_loader, model, arg):
                 output_single = torch.squeeze(model(input_single))
                 detector.append(output_single.softmax(0).data)
                 if not SoG:
-                    SoG = Detector(detector,5,True) ## continue detecting Start-of-Gesture
+                    SoG = Detector(detector,sog_th,True) ## continue detecting Start-of-Gesture
 
                 else: ## enter Classifier Queue mode
-                    #weights = torch.Tensor(weighted_window(window_len)).cuda()
-                    EoG = Detector(detector,5,False) # detecting End-of-Gesture
+
+                    EoG = Detector(detector,eog_th,False) # detecting End-of-Gesture
                     if EoG:  ## End-of-Gesture detected
                         break
 
                     else:
                         logits.append(output_single.data)
                         counter += 1
-                        if (len(logits) == window_len) and (counter%window_stride == 0): ## activate the weighted window to calculate the new probs
-
+                        if (len(logits) == window_len) and (counter%window_stride == 0):
+                        ## activate the weighted window to calculate the new probs
                             weighted_logits = sum(logits)
                             window_output = weighted_logits.softmax(0)
                             _,pred = torch.max(window_output, 0)
@@ -177,7 +188,6 @@ def test(epoch, data_loader, model, arg):
     ## Deactivate Classifier Queue and start Viterbi decoder
         if len(input_viterbi) > 3:
             path_m = viterbi_search(input_viterbi, 2)
-
             if not path_m == target and EoG:
                 order_error += 1
                 path_m_arr = np.asarray(path_m)
@@ -189,7 +199,9 @@ def test(epoch, data_loader, model, arg):
             detector_error += 1
         batch_time.update(time.time() - end_time)
         end_time = time.time()
+
 ######  monitor the error changes for every tuple
         print('tuple: {0}, processing time: {batch_time.avg:.5f}, detecotr_error: {1}, order_error: {2}'.format(i, detector_error, order_error, batch_time=batch_time))
+
 ###### print the summery of one set (810 gesture tuples) in the end
     print(EoG_error, detector_error, order_error,classifier_error)

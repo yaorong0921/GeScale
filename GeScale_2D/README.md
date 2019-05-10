@@ -68,7 +68,7 @@ Here are some examples for (pre)training with Jester and fine-tuning with SHGD15
                  --epochs 60 \
                  --lr 0.001 \
                  --dropout 0.8 \
-                 --pretrain_path './pretrained_models/SHGD_IRD_squeezenet1_1_segment8_best.pth.tar' \
+                 --pretrained './pretrained_models/SHGD_IRD_squeezenet1_1_segment8_best.pth.tar' \
   ```
 
 ### Test
@@ -83,7 +83,7 @@ For testing to recognize gesture tuples in SHGD Tuples, Please use the models tr
                  --num_segments 8 \
                  --img_feature_dim 64 \
                  --test \
-                 --resume_path './pretrained_models/SHGD_IR_mobilenetv2_segment8_best.pth.tar' \
+                 --resume './pretrained_models/SHGD_IR_mobilenetv2_segment8_best.pth.tar' \
   ```
 
 ### Acknowledgment

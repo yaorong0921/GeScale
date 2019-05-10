@@ -27,23 +27,31 @@ Here are some examples for (pre)training with Jester and fine-tuning with SHGD15
 - Pretraining with Jester: using SqueezeNet 1.1
 
   ```
-  python main.py jester RGB
-                 --arch squeezenet1_1 \
-                 --num_segments 8 \
-                 --batch-size 32 \
-                 --img_feature_dim 64 \
+ python main.py --dataset SHGD \
+                --modality IRD  \
+                --arch squeezenet1_1 \
+                --num_segments 8 \
+                --batch-size 32 \
+                --epochs 60 \
+                --img_feature_dim 64 \
+                --lr 0.001 \
+                --dropout 0.8 \
                  
   ```
 
 - Training with SHGD 15: using pretrained (with jester) models; inputs are IR and Depth images.
 
   ```
-  python main.py SHGD IRD
+  python main.py --dataset SHGD \
+                 --modality IRD  \
                  --arch squeezenet1_1 \
                  --num_segments 8 \
                  --batch-size 32 \
+                 --epochs 60 \
                  --img_feature_dim 64 \
-                 --pretrain_path pretrained_models/.. \
+                 --lr 0.001 \
+                 --dropout 0.8 \
+                 --pretrained './pretrained_models/jester_RGB_squeezenet1_1_segment8_best.pth.tar' \
   ```
 
 - Training with SHGD13: using pretrained (with SHGD15) models; inputs are IR and Depth images. 
@@ -51,12 +59,16 @@ Here are some examples for (pre)training with Jester and fine-tuning with SHGD15
   **Please change the annotations** (train list, validation list and label list) for SHGD13 in ``datasets_video.py`` first!
 
   ```
-  python main.py SHGD IRD
+  python main.py --dataset SHGD \
+                 --modality IRD  \
                  --arch squeezenet1_1 \
                  --num_segments 8 \
-                 --batch-size 32 \
                  --img_feature_dim 64 \
-                 --pretrain_path pretrained_models/.. \
+                 --batch-size 32 \
+                 --epochs 60 \
+                 --lr 0.001 \
+                 --dropout 0.8 \
+                 --pretrain_path './pretrained_models/SHGD_IRD_squeezenet1_1_segment8_best.pth.tar' \
   ```
 
 ### Test
@@ -71,7 +83,7 @@ For testing to recognize gesture tuples in SHGD Tuples, Please use the models tr
                  --num_segments 8 \
                  --img_feature_dim 64 \
                  --test \
-                 --resume_path pretrained_models/.. \
+                 --resume_path './pretrained_models/SHGD_IR_mobilenetv2_segment8_best.pth.tar' \
   ```
 
 ### Acknowledgment

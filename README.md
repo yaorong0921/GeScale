@@ -1,5 +1,5 @@
 # GeScale
-More details about this work can be found in the paper [Talking with Your Hands: Scaling Hand Gestures and Recognition with CNNs](https://128.84.21.199/pdf/1905.04225.pdf).
+More details about this work can be found in the paper [Talking with Your Hands: Scaling Hand Gestures and Recognition with CNNs](https://arxiv.org/pdf/1905.04225.pdf).
 
 In this paper, 4 different models are used: 2D-SqueezeNet (version1.1), 2D-MobileNetV2; 3D-SqueezeNet (version1.1), 3D-MobileNetV2.
 

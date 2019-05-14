@@ -11,7 +11,7 @@ You can download [SHGD](https://www.mmk.ei.tum.de/shgd/) here. The dataset inclu
 Single gestures and 3-tuple gestures. Every record includes infrared images and depth images. 
 
 ### Single gesture 
-![](http://github.com/yaorong0921/GeScale/blob/master/example-single-gestures.gif)
+![](https://github.com/yaorong0921/GeScale/blob/master/example-single-gestures.gif)
 
 ### Gesture tuples
-![](http://github.com/yaorong0921/GeScale/blob/master/example-3-tuple.gif)
+![](https://github.com/yaorong0921/GeScale/blob/master/example-3-tuple.gif)

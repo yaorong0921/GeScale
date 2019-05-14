@@ -28,15 +28,14 @@ Here are some examples for (pre)training with Jester and fine-tuning with SHGD15
 
   ```
   python main.py --dataset SHGD \
-                --modality IRD  \
-                --arch squeezenet1_1 \
-                --num_segments 8 \
-                --batch-size 32 \
-                --epochs 60 \
-                --img_feature_dim 64 \
-                --lr 0.001 \
-                --dropout 0.8 \
-                 
+                 --modality IRD  \
+                 --arch squeezenet1_1 \
+                 --num_segments 8 \
+                 --batch-size 32 \
+                 --epochs 60 \
+                 --img_feature_dim 64 \
+                 --lr 0.001 \
+                 --dropout 0.8 \
   ```
 
 - Training with SHGD 15: using pretrained (with jester) models; inputs are IR and Depth images.

@@ -15,3 +15,17 @@ Single gestures and 3-tuple gestures. Every record includes infrared images and 
 
 ### Gesture tuples
 ![](https://github.com/yaorong0921/GeScale/blob/master/example-3-tuple.gif)
+
+
+### Citation
+If you find this work useful or use the code, please cite as follows:
+
+```
+@inproceedings{kopuklu2019talking,
+  title={Talking with your hands: Scaling hand gestures and recognition with cnns},
+  author={Kopuklu, Okan and Rong, Yao and Rigoll, Gerhard},
+  booktitle={Proceedings of the IEEE/CVF International Conference on Computer Vision Workshops},
+  pages={0--0},
+  year={2019}
+}
+```

@@ -18,7 +18,7 @@ Single gestures and 3-tuple gestures. Every record includes infrared images and 
 
 
 ### Citation
-If you find this work useful or use the code, please cite as follows:
+If you find this work useful or use the code/dataset, please cite as follows:
 
 ```
 @inproceedings{kopuklu2019talking,
